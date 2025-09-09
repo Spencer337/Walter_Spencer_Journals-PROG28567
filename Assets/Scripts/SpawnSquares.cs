@@ -1,6 +1,4 @@
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class SpawnSquares : MonoBehaviour
 {
@@ -26,6 +24,7 @@ public class SpawnSquares : MonoBehaviour
         {
             DrawSquare(Color.white, 100);
         }
+        MathFunctions.DrawSquare(mousePos, radius - 0.1f, Color.red, 2);
     }
 
     public void DrawSquare(Color c, int d)
