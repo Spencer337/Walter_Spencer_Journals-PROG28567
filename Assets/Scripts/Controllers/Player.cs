@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //Vector2 n = new Vector2(directionToMove.x / Mathf.Abs(directionToMove.x) , directionToMove.y / Mathf.Abs(directionToMove.y));
+        // Formula for normalizing a vector: Vector2 n = directionToMove / directionToMove.magnitude;
+
         //Debug.Log(n);
         //Debug.Log(directionToMove.normalized);
 
