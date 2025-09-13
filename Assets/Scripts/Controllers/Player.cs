@@ -32,6 +32,10 @@ public class Player : MonoBehaviour
         {
             SpawnBombTrail(bombSpacing, numberOfTrailBombs);
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SpawnBombOnRandomCorner(1.5f);
+        }
     }
 
     public void SpawnBombAtOffset(Vector2 inOffset)
@@ -57,5 +61,45 @@ public class Player : MonoBehaviour
             spawnPosition.y += bombSpacing;
             GameObject newBomb = Instantiate(bombPrefab, spawnPosition, Quaternion.identity);
         }
+    }
+
+    public void SpawnBombOnRandomCorner (float inDistance)
+    {
+        int direction = Random.Range(0, 4);
+        GameObject newBomb = Instantiate(bombPrefab, transform.position, Quaternion.identity);
+        newBomb.transform.Rotate(0, 0, 45);
+        // Spawns a bomb to the top left of the player
+        if (direction == 0)
+        {
+            Debug.Log(direction);
+            newBomb.transform.position += newBomb.transform.up * inDistance;
+            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
+            Debug.Log(distance);
+        }
+        // Spawns a bomb to the top right of the player
+        else if (direction == 1)
+        {
+            Debug.Log(direction);
+            newBomb.transform.position += newBomb.transform.right * inDistance;
+            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
+            Debug.Log(distance);
+        }
+        // Spawns a bomb to the bottom right of the player
+        else if (direction == 2)
+        {
+            Debug.Log(direction);
+            newBomb.transform.position += newBomb.transform.up * -inDistance;
+            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
+            Debug.Log(distance);
+        }
+        // Spawns a bomb to the bottom left of the player
+        else if (direction == 3)
+        {
+            Debug.Log(direction);
+            newBomb.transform.position += newBomb.transform.right * -inDistance;
+            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
+            Debug.Log(distance);
+        }
+
     }
 }
