@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -36,6 +37,11 @@ public class Player : MonoBehaviour
         {
             SpawnBombOnRandomCorner(1.5f);
         }
+        if (Input.GetKey(KeyCode.R))
+        {
+            DetectAsteroids(5f, asteroidTransforms);
+        }
+        
     }
 
     public void SpawnBombAtOffset(Vector2 inOffset)
@@ -100,6 +106,22 @@ public class Player : MonoBehaviour
             float distance = Vector2.Distance(transform.position, newBomb.transform.position);
             Debug.Log(distance);
         }
+    }
 
+    public void DetectAsteroids(float inMaxRange, List <Transform> inAsteroids)
+    {
+        for (int i = 0; i < inAsteroids.Count; i++)
+        {
+            float distance = Vector2.Distance(transform.position, inAsteroids[i].transform.position);
+            
+            if (distance <= inMaxRange)
+            {
+                Debug.Log(distance);
+                Vector3 endPos = (inAsteroids[i].transform.position - transform.position).normalized * 2.5f;
+                endPos += transform.position;
+                Debug.DrawLine(transform.position, endPos, Color.green);
+                
+            }
+        }
     }
 }
