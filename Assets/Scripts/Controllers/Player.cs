@@ -16,14 +16,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Formula for normalizing a vector: Vector2 n = directionToMove / directionToMove.magnitude;
-
-        //Debug.Log(n);
-        //Debug.Log(directionToMove.normalized);
-
         if (Input.GetKeyDown(KeyCode.W))
         {
-            WarpPlayer(speed);
+            WarpPlayer(enemyTransform, speed);
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
@@ -41,22 +36,17 @@ public class Player : MonoBehaviour
         {
             DetectAsteroids(5f, asteroidTransforms);
         }
-        
     }
 
     public void SpawnBombAtOffset(Vector2 inOffset)
     {
-        Vector2 spawnPosition = (Vector2)transform.position + offset;
+        Vector2 spawnPosition = (Vector2)transform.position + inOffset;
         GameObject newBomb = Instantiate(bombPrefab, spawnPosition, Quaternion.identity);
     }
 
-    public void WarpPlayer (float speed)
+    public void WarpPlayer (Transform target, float ratio)
     {
-        Vector2 targetPosition = enemyTransform.position;
-        Vector2 startPosition = transform.position;
-        Vector2 directionToMove = targetPosition - startPosition;
-        //transform.position += (Vector3)directionToMove.normalized * speed;
-        transform.position = Vector2.Lerp(startPosition, targetPosition, speed);
+        transform.position = Vector2.Lerp(transform.position, target.position, ratio);
     }
 
     public void SpawnBombTrail (float bombSpacing, int numberOfTrailBombs)
@@ -71,40 +61,28 @@ public class Player : MonoBehaviour
 
     public void SpawnBombOnRandomCorner (float inDistance)
     {
-        int direction = Random.Range(0, 4);
         GameObject newBomb = Instantiate(bombPrefab, transform.position, Quaternion.identity);
         newBomb.transform.Rotate(0, 0, 45);
+        int direction = Random.Range(0, 4);
         // Spawns a bomb to the top left of the player
         if (direction == 0)
         {
-            Debug.Log(direction);
             newBomb.transform.position += newBomb.transform.up * inDistance;
-            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
-            Debug.Log(distance);
         }
         // Spawns a bomb to the top right of the player
         else if (direction == 1)
         {
-            Debug.Log(direction);
             newBomb.transform.position += newBomb.transform.right * inDistance;
-            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
-            Debug.Log(distance);
         }
         // Spawns a bomb to the bottom right of the player
         else if (direction == 2)
         {
-            Debug.Log(direction);
             newBomb.transform.position += newBomb.transform.up * -inDistance;
-            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
-            Debug.Log(distance);
         }
         // Spawns a bomb to the bottom left of the player
         else if (direction == 3)
         {
-            Debug.Log(direction);
             newBomb.transform.position += newBomb.transform.right * -inDistance;
-            float distance = Vector2.Distance(transform.position, newBomb.transform.position);
-            Debug.Log(distance);
         }
     }
 
@@ -113,14 +91,11 @@ public class Player : MonoBehaviour
         for (int i = 0; i < inAsteroids.Count; i++)
         {
             float distance = Vector2.Distance(transform.position, inAsteroids[i].transform.position);
-            
             if (distance <= inMaxRange)
             {
-                Debug.Log(distance);
                 Vector3 endPos = (inAsteroids[i].transform.position - transform.position).normalized * 2.5f;
                 endPos += transform.position;
                 Debug.DrawLine(transform.position, endPos, Color.green);
-                
             }
         }
     }
