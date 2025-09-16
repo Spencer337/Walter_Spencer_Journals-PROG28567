@@ -2411,6 +2411,7 @@ MonoBehaviour:
   - {fileID: 426582573}
   - {fileID: 2257695664884323191}
   drawingTime: 0.5
+  drawingDistance: 0.1
 --- !u!4 &1573207886
 Transform:
   m_ObjectHideFlags: 0
@@ -3109,8 +3110,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
+      propertyPath: velocity.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: bombSpacing
       value: -0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
+      propertyPath: acceleration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: bombOffset.x
