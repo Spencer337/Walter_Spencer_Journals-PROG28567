@@ -14,10 +14,14 @@ public class Player : MonoBehaviour
     public float warpSpeed = 0.5f;
     public float maxSpeed = 5;
     public float acceleration;
-    public float accelerationTime = 3;
+    public float accelerationTime = 2;
     public float bombSpacing = -0.2f;
     public int numberOfTrailBombs = 3;
     public Vector3 velocity = new Vector3(0, 0, 0);
+    public Vector3 direction = Vector3.zero;
+    public float timer;
+    public Vector3 deceleration;
+    public float decelerationTime = 1;
 
     private void Start()
     {
@@ -49,63 +53,7 @@ public class Player : MonoBehaviour
     }
 
     public void PlayerMovement()
-    {
-        //Way 1
-        //transform.Translate(Input.GetAxis("Horizontal") * Time.deltaTime, 0, 0);
-        //transform.Translate(0, Input.GetAxis("Vertical") * Time.deltaTime, 0);
-
-        // Way 2
-        //velocity.x = Input.GetAxisRaw("Horizontal");
-        //velocity.y = Input.GetAxisRaw("Vertical");
-        //transform.position += velocity * Time.deltaTime;
-
-        // Way 3
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    velocity += Vector3.right * Time.deltaTime;
-        //    transform.position += velocity * Time.deltaTime;
-        //}
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    velocity += Vector3.left * Time.deltaTime;
-        //    transform.position += velocity * Time.deltaTime;
-        //}
-        //if (Input.GetKey(KeyCode.UpArrow))
-        //{
-        //    velocity += Vector3.up * Time.deltaTime;
-        //    transform.position += velocity * Time.deltaTime;
-        //}
-        //if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    velocity += Vector3.down * Time.deltaTime;
-        //    transform.position += velocity * Time.deltaTime;
-        //}
-        //if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
-        //{
-        //    velocity.x = 0;
-        //}
-        //if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow))
-        //{
-        //    velocity.y = 0;
-        //}
-        //if (velocity.x > maxSpeed)
-        //{
-        //    velocity.x = maxSpeed;
-        //}
-        //if (velocity.y > maxSpeed)
-        //{
-        //    velocity.y = maxSpeed;
-        //}
-        //if (velocity.x < -maxSpeed)
-        //{
-        //    velocity.x = -maxSpeed;
-        //}
-        //if (velocity.y < -maxSpeed)
-        //{
-        //    velocity.y = -maxSpeed;
-        //}
-
-        Vector3 direction = Vector3.zero;
+    {   
         // Move the object with acceleration logic
         // When right key is pressed, increase the direction to the right
         if (Input.GetKey(KeyCode.RightArrow))
@@ -117,23 +65,101 @@ public class Player : MonoBehaviour
         {
             direction += Vector3.left;
         }
-        // When up key is pressed, increase the direction to the up
+        // When up key is pressed, increase the direction upwards
         if (Input.GetKey(KeyCode.UpArrow))
         {
             direction += Vector3.up;
         }
-        // When down key is pressed, increase the direction to the down
+        // When down key is pressed, increase the direction downwards
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            direction += Vector3.right;
+            direction += Vector3.down;
         }
         // Normalize direction vector
-        direction = Vector3.Normalize(direction);
-        velocity += (Vector3)direction * acceleration * Time.deltaTime;
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
+        {
+            direction = direction.normalized;
+            velocity += (Vector3)direction * acceleration * Time.deltaTime;
+        }
+
+        // Make sure velocity is not over max speed, and set it to max speed if it is
+        if (velocity.x > maxSpeed)
+        {
+            velocity.x = maxSpeed;
+        }
+        if (velocity.x < -maxSpeed)
+        {
+            velocity.x = -maxSpeed;
+        }
+        if (velocity.y > maxSpeed)
+        {
+            velocity.y = maxSpeed;
+        }
+        if (velocity.y < -maxSpeed)
+        {
+            velocity.y = -maxSpeed;
+        }
+
         transform.position += velocity * Time.deltaTime;
+
 
         //Somewhere in your code, you will subtract the deceleration
         //When you stop pressing input
+        if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            deceleration.x = velocity.x / decelerationTime;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            deceleration.x = velocity.x / decelerationTime;
+        }
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            deceleration.y = velocity.y / decelerationTime;
+        }
+        if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            deceleration.y = velocity.y / decelerationTime;
+        }
+
+        velocity -= deceleration * Time.deltaTime;
+
+        // If player was moving right before decelerating
+        if (deceleration.x > 0 )
+        {
+            if (velocity.x <= 0)
+            {
+                deceleration.x = 0;
+                velocity.x = 0;
+            }
+        }
+        // If player was moving left before decelerating
+        if (deceleration.x < 0)
+        {
+            if (velocity.x >= 0)
+            {
+                deceleration.x = 0;
+                velocity.x = 0;
+            }
+        }
+        // If player was moving up before decelerating
+        if (deceleration.y > 0)
+        {
+            if (velocity.y <= 0)
+            {
+                deceleration.y = 0;
+                velocity.y = 0;
+            }
+        }
+        // If player was moving down before decelerating
+        if (deceleration.y < 0)
+        {
+            if (velocity.y >= 0)
+            {
+                deceleration.y = 0;
+                velocity.y = 0;
+            }
+        }
     }
 
     public void SpawnBombAtOffset(Vector2 inOffset)
