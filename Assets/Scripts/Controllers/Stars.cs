@@ -7,6 +7,12 @@ public class Stars : MonoBehaviour
     public List<Transform> starTransforms;
     public float drawingTime;
     public float drawingDistance;
+    public Vector3 startPosition;
+    public Vector3 endPosition;
+    public Vector3 midPosition;
+    public Vector3 direction;
+    public float t = 0;
+    public int i = 0;
 
     // Update is called once per frame
     void Update()
@@ -15,16 +21,26 @@ public class Stars : MonoBehaviour
     }
     public void DrawConstellation()
     {
-        //for (int i = 0; i < starTransforms.Count-1; i++)
-        //{
-        //    Vector3 startPosition = starTransforms[i].position;
-        //    Vector3 endPosition = starTransforms[i + 1].position;
-        //    Debug.DrawLine(startPosition, endPosition);
-        //}
-        Vector3 startPosition = starTransforms[0].position;
-        Vector3 endPosition = starTransforms[1].position;
-        endPosition = (endPosition + startPosition).normalized * drawingDistance;
-        drawingDistance += drawingDistance;
+        startPosition = starTransforms[i].position;
+        endPosition = starTransforms[i + 1].position;
+        midPosition = Vector3.Lerp(startPosition, endPosition, t);
+        t += Time.deltaTime / drawingTime;
+        Debug.DrawLine(startPosition, midPosition);
 
+        // If the lerp has been completed, meaning the line is fully drawn
+        if (t >= 1)
+        {
+            // Increase I and set t back to zero
+            i++;
+            t = 0;
+        }
+
+        // If the last point has been drawn, set i back to zero to start over
+        if (i >= starTransforms.Count - 1)
+        {
+            i = 0;
+        }
+        // Testing Line
+        // Debug.DrawLine(startPosition, endPosition, Color.red);
     }
 }
