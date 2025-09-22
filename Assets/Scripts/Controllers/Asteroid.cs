@@ -23,7 +23,7 @@ public class Asteroid : MonoBehaviour
         // Multiply point by maxFloatDistance
         destination = destination * maxFloatDistance;
         destination = destination + transform.position;
-        Debug.Log(Vector2.Distance(transform.position, destination));
+        //Debug.Log(Vector2.Distance(transform.position, destination));
         //Debug.Log(destination);
     }
 
