@@ -14,17 +14,7 @@ public class Asteroid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Choose a new point as a vector2, assigning it's x and y values to random numbers
-        destination = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
-
-        // Normalize the point
-        destination = destination.normalized;
-
-        // Multiply point by maxFloatDistance
-        destination = destination * maxFloatDistance;
-        destination = destination + transform.position;
-        //Debug.Log(Vector2.Distance(transform.position, destination));
-        //Debug.Log(destination);
+        NewDestination();
     }
 
     // Update is called once per frame
@@ -35,28 +25,27 @@ public class Asteroid : MonoBehaviour
 
     public void AsteroidMovement()
     {
-        //Debug.DrawLine(transform.position, destination);
-        //Debug.Log(destination.ToString());
-
         // Move asteroid toward that point based on moveSpeed
         direction = (destination - transform.position).normalized;
         transform.position += direction * moveSpeed;
         float distance = Vector2.Distance(transform.position, destination);
-        //Debug.Log(distance);
         if (distance <= arrivalDistance)
         {
-            //Debug.Log("In distance");
-            // Choose a new point as a vector2, assigning it's x and y values to random numbers
-            destination = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
-
-            // Normalize the point
-            destination = destination.normalized;
-            //destination = destination.normalized;
-
-            // Multiply point by maxFloatDistance
-            destination = destination * maxFloatDistance;
-            destination = destination + transform.position;
-            //Debug.Log(Vector2.Distance(transform.position, destination));
+            NewDestination();
         }
+        
+    }
+
+    public void NewDestination()
+    {
+        // Choose a new point as a vector2, assigning it's x and y values to random numbers
+        destination = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+
+        // Normalize the point
+        destination = destination.normalized;
+
+        // Multiply point by maxFloatDistance
+        destination = destination * maxFloatDistance;
+        destination = destination + transform.position;
     }
 }

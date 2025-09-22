@@ -10,9 +10,9 @@ public class Stars : MonoBehaviour
     public Vector3 startPosition;
     public Vector3 endPosition;
     public Vector3 midPosition;
-    public Vector3 direction;
     public float t = 0;
     public int i = 0;
+    public float timer;
 
     // Update is called once per frame
     void Update()
@@ -40,7 +40,5 @@ public class Stars : MonoBehaviour
         {
             i = 0;
         }
-        // Testing Line
-        // Debug.DrawLine(startPosition, endPosition, Color.red);
     }
 }

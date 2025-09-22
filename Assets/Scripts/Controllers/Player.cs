@@ -12,14 +12,13 @@ public class Player : MonoBehaviour
     public Transform bombsTransform;
     public Vector2 offset = new Vector2(0,1);
     public float warpSpeed = 0.5f;
+    public float bombSpacing = -0.2f;
+    public int numberOfTrailBombs = 3;
     public float maxSpeed = 5;
     public float acceleration;
     public float accelerationTime = 2;
-    public float bombSpacing = -0.2f;
-    public int numberOfTrailBombs = 3;
     public Vector3 velocity = new Vector3(0, 0, 0);
     public Vector3 direction = Vector3.zero;
-    public float timer;
     public Vector3 deceleration;
     public float decelerationTime = 1;
 
@@ -100,9 +99,6 @@ public class Player : MonoBehaviour
             velocity.y = -maxSpeed;
         }
 
-        transform.position += velocity * Time.deltaTime;
-
-
         //Somewhere in your code, you will subtract the deceleration
         //When you stop pressing input
         if (Input.GetKeyUp(KeyCode.RightArrow))
@@ -123,6 +119,7 @@ public class Player : MonoBehaviour
         }
 
         velocity -= deceleration * Time.deltaTime;
+        transform.position += velocity * Time.deltaTime;
 
         // If player was moving right before decelerating
         if (deceleration.x > 0 )
