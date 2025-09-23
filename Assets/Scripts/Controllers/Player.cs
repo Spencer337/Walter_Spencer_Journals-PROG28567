@@ -21,6 +21,10 @@ public class Player : MonoBehaviour
     public Vector3 direction = Vector3.zero;
     public Vector3 deceleration;
     public float decelerationTime = 1;
+    public float radius = 1;
+    public int numberOfPoints = 5;
+    public List<float> angles = new List<float>();
+    public List<Vector3> radarPoints = new List<Vector3>();
 
     private void Start()
     {
@@ -28,7 +32,8 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        PlayerMovement();
+        //PlayerMovement();
+        ProperMovement();
         if (Input.GetKeyDown(KeyCode.W))
         {
             WarpPlayer(enemyTransform, warpSpeed);
@@ -49,6 +54,7 @@ public class Player : MonoBehaviour
         {
             DetectAsteroids(5f, asteroidTransforms);
         }
+        PlayerRadar(radius, numberOfPoints);
     }
 
     public void PlayerMovement()
@@ -159,6 +165,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ProperMovement()
+    {
+
+    }
+
     public void SpawnBombAtOffset(Vector2 inOffset)
     {
         Vector2 spawnPosition = (Vector2)transform.position + inOffset;
@@ -218,6 +229,38 @@ public class Player : MonoBehaviour
                 endPos += transform.position;
                 Debug.DrawLine(transform.position, endPos, Color.green);
             }
+        }
+    }
+
+    public void PlayerRadar(float radius, int numberOfPoints)
+    {
+        for (int i = 0; i  < numberOfPoints; i++)
+        {
+            float angle = (360 / numberOfPoints) * i;
+            float angleInRadians = angle * Mathf.Deg2Rad;
+            float x = Mathf.Cos(angleInRadians);
+            float y = Mathf.Sin(angleInRadians);
+            Vector3 newPoint = new Vector3(x, y, 0) * radius;
+            radarPoints.Add(newPoint);
+            angles.Add(angle);
+        }
+        for (int i = 0; i < radarPoints.Count - 1; i++)
+        {
+            //// Get the first point
+            //float angleInRadians = angles[i] * Mathf.Deg2Rad;
+            //float x = Mathf.Cos(angleInRadians);
+            //float y = Mathf.Sin(angleInRadians);
+            //Vector3 startPoint = new Vector3(x, y, 0);
+
+            //// Get the second point
+            //float secondAngleInRadians = angles[i + 1] * Mathf.Deg2Rad;
+            //float x2 = Mathf.Cos(secondAngleInRadians);
+            //float y2 = Mathf.Sin(secondAngleInRadians);
+            //Vector3 endPoint = new Vector3(x2, y2, 0);
+
+            Debug.Log(angles[i]);
+            Debug.DrawLine(radarPoints[i] + transform.position, radarPoints[i + 1] + transform.position, Color.green);
+            // Number of points keeps going up, I need a way to reset the list each time.
         }
     }
 }
