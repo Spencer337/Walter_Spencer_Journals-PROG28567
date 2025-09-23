@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
     public float decelerationTime = 1;
     public float radius = 1;
     public int numberOfPoints = 5;
-    public List<float> angles = new List<float>();
     public List<Vector3> radarPoints = new List<Vector3>();
 
     private void Start()
@@ -32,8 +31,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        //PlayerMovement();
-        ProperMovement();
+        PlayerMovement();
         if (Input.GetKeyDown(KeyCode.W))
         {
             WarpPlayer(enemyTransform, warpSpeed);
@@ -165,11 +163,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ProperMovement()
-    {
-
-    }
-
     public void SpawnBombAtOffset(Vector2 inOffset)
     {
         Vector2 spawnPosition = (Vector2)transform.position + inOffset;
@@ -234,15 +227,20 @@ public class Player : MonoBehaviour
 
     public void PlayerRadar(float radius, int numberOfPoints)
     {
+        Color radarColor = Color.green;
+        if (Vector2.Distance(transform.position, enemyTransform.position) <= radius)
+        {
+            radarColor = Color.red;
+        }
         for (int i = 0; i  < numberOfPoints; i++)
         {
+            
             float angle = (360 / numberOfPoints) * i;
             float angleInRadians = angle * Mathf.Deg2Rad;
             float x = Mathf.Cos(angleInRadians);
             float y = Mathf.Sin(angleInRadians);
             Vector3 newPoint = new Vector3(x, y, 0) * radius;
             radarPoints.Add(newPoint);
-            angles.Add(angle);
         }
         for (int i = 0; i < radarPoints.Count - 1; i++)
         {
@@ -258,9 +256,10 @@ public class Player : MonoBehaviour
             //float y2 = Mathf.Sin(secondAngleInRadians);
             //Vector3 endPoint = new Vector3(x2, y2, 0);
 
-            Debug.Log(angles[i]);
-            Debug.DrawLine(radarPoints[i] + transform.position, radarPoints[i + 1] + transform.position, Color.green);
+            Debug.DrawLine(radarPoints[i] + transform.position, radarPoints[i + 1] + transform.position, radarColor);
             // Number of points keeps going up, I need a way to reset the list each time.
         }
+        Debug.DrawLine(radarPoints[0] + transform.position, radarPoints[radarPoints.Count - 1] + transform.position, radarColor);
+        radarPoints.Clear();
     }
 }
