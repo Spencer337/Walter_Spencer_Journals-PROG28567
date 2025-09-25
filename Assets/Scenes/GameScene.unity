@@ -259,6 +259,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 462add3d0f7c62a4682e9c053b00ec93, type: 3}
+--- !u!1001 &97298243
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2301990505270886567, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_Name
+      value: Orbital System
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.9198976
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.3063703
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.014387669
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695347650650143362, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382019928816532762, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
+      propertyPath: orbitalSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3b47d100d80f96419fd12c13303c43e, type: 3}
 --- !u!4 &154511008 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4194190890010494449, guid: 462add3d0f7c62a4682e9c053b00ec93, type: 3}
@@ -798,7 +859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &761684707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3360,6 +3421,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
+      propertyPath: powerupPrefab
+      value: 
+      objectReference: {fileID: 1567431237259788, guid: 03444c0c59102ba46bb1a8b5a1b0a810, type: 3}
+    - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: bombsTransform
       value: 
       objectReference: {fileID: 1615314664}
@@ -3382,6 +3447,10 @@ PrefabInstance:
     - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: numberOfTrailBombs
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
+      propertyPath: radarPoints.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6890330259706833056, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: asteroidTransforms.Array.size
@@ -3737,3 +3806,4 @@ SceneRoots:
   - {fileID: 1615314664}
   - {fileID: 1573207886}
   - {fileID: 761684708}
+  - {fileID: 97298243}

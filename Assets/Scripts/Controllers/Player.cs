@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     public float radius = 1;
     public int numberOfPoints = 5;
     public List<Vector3> radarPoints = new List<Vector3>();
+    public List<Vector3> powerupPoints = new List<Vector3>();
+    public GameObject powerupPrefab;
 
     private void Start()
     {
@@ -53,6 +55,10 @@ public class Player : MonoBehaviour
             DetectAsteroids(5f, asteroidTransforms);
         }
         PlayerRadar(radius, numberOfPoints);
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SpawnPowerups(2, 6);
+        }
     }
 
     public void PlayerMovement()
@@ -234,7 +240,6 @@ public class Player : MonoBehaviour
         }
         for (int i = 0; i  < numberOfPoints; i++)
         {
-            
             float angle = (360 / numberOfPoints) * i;
             float angleInRadians = angle * Mathf.Deg2Rad;
             float x = Mathf.Cos(angleInRadians);
@@ -242,24 +247,29 @@ public class Player : MonoBehaviour
             Vector3 newPoint = new Vector3(x, y, 0) * radius;
             radarPoints.Add(newPoint);
         }
-        for (int i = 0; i < radarPoints.Count - 1; i++)
+        for (int j = 0; j < radarPoints.Count - 1; j++)
         {
-            //// Get the first point
-            //float angleInRadians = angles[i] * Mathf.Deg2Rad;
-            //float x = Mathf.Cos(angleInRadians);
-            //float y = Mathf.Sin(angleInRadians);
-            //Vector3 startPoint = new Vector3(x, y, 0);
-
-            //// Get the second point
-            //float secondAngleInRadians = angles[i + 1] * Mathf.Deg2Rad;
-            //float x2 = Mathf.Cos(secondAngleInRadians);
-            //float y2 = Mathf.Sin(secondAngleInRadians);
-            //Vector3 endPoint = new Vector3(x2, y2, 0);
-
-            Debug.DrawLine(radarPoints[i] + transform.position, radarPoints[i + 1] + transform.position, radarColor);
-            // Number of points keeps going up, I need a way to reset the list each time.
+            Debug.DrawLine(radarPoints[j] + transform.position, radarPoints[j + 1] + transform.position, radarColor);
         }
         Debug.DrawLine(radarPoints[0] + transform.position, radarPoints[radarPoints.Count - 1] + transform.position, radarColor);
         radarPoints.Clear();
+    }
+
+    public void SpawnPowerups(float radius, int numberOfPowerups) 
+    {
+        for (int i = 0; i < numberOfPowerups; i++)
+        {
+            float angle = (360 / numberOfPowerups) * i;
+            float angleInRadians = angle * Mathf.Deg2Rad;
+            float x = Mathf.Cos(angleInRadians);
+            float y = Mathf.Sin(angleInRadians);
+            Vector3 newPoint = new Vector3(x, y, 0) * radius;
+            powerupPoints.Add(newPoint);
+        }
+        for (int j = 0; j < powerupPoints.Count; j++)
+        {
+            GameObject newPowerup = Instantiate(powerupPrefab, powerupPoints[j] + transform.position, Quaternion.identity);
+        }
+        powerupPoints.Clear();
     }
 }
