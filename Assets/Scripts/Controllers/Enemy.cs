@@ -4,7 +4,7 @@ using System.Collections;
 public class Enemy : MonoBehaviour
 {
     public Transform playerTransform;
-    public float stoppingDistance = 2;
+    public float stoppingDistance = 1;
     public Vector3 direction;
     public Vector3 velocity;
     public float distance;

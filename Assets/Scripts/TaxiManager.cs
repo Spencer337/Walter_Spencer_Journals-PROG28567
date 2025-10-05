@@ -6,6 +6,7 @@ using UnityEngine;
 public class TaxiManager : MonoBehaviour
 {
     public Transform playerTransform;
+    public Transform enemyTransform;
     public GameObject alienObject;
     public GameObject houseObject;
     public TextMeshProUGUI timerText;
@@ -94,6 +95,11 @@ public class TaxiManager : MonoBehaviour
 
         // If the timer runs out, end the taxi sequence and decrease score
         if (timer <= 0)
+        {
+            EndTaxiSequence(-5);
+        }
+        // If the distance between enemy and player is less than 1, end the taxi sequence and decrease score
+        if (Vector2.Distance(playerTransform.position, enemyTransform.position) <= 1)
         {
             EndTaxiSequence(-5);
         }
