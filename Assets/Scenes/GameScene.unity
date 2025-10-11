@@ -861,6 +861,7 @@ MonoBehaviour:
   maxX: 0
   maxY: 0
   score: 0
+  taxiSequenceRunning: 0
 --- !u!4 &446869731
 Transform:
   m_ObjectHideFlags: 0
@@ -3461,6 +3462,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1750915392}
   - component: {fileID: 1750915391}
+  - component: {fileID: 1750915393}
   m_Layer: 0
   m_Name: Alien
   m_TagString: Untagged
@@ -3512,7 +3514,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0.19339621, g: 1, b: 0.3321422, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3538,6 +3540,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1750915393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750915390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d337826c1d7e14ca398ab7c78f2702, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taxiManager: {fileID: 446869730}
+  playerTransform: {fileID: 73145240}
+  angleInDegrees: 0
+  orbitalSpeed: 100
+  radius: 1
+  angularSpeed: 100
 --- !u!1 &1782130787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4022,11 +4042,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4408196811525658, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4408196811525658, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.37
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4408196811525658, guid: abc125f00ae369940b2c5c0275186637, type: 3}
       propertyPath: m_LocalPosition.z

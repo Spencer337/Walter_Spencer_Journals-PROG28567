@@ -15,18 +15,28 @@ public class Enemy : MonoBehaviour
     public float t;
     public float maxDistance = 20;
 
+    public float frequency = 5f;
+    public float magnitude = 5f;
+    public float offset = 0f;
+    public Vector3 pos;
+    public float moveSpeed = 10;
+
     private void Start()
     {
         acceleration = maxSpeed / accelerationTime;
+        pos = transform.position;
     }
     private void Update()
     {
-        t += Time.deltaTime; 
-        if (t >= moveInterval)
-        {
-            moveTowardPlayer();
-        }
-        
+        //t += Time.deltaTime; 
+        //if (t >= moveInterval)
+        //{
+        //    moveTowardPlayer();
+        //}
+
+        pos += transform.right * Time.deltaTime * moveSpeed;
+        transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency + offset) * magnitude;
+
     }
 
     public void moveTowardPlayer()

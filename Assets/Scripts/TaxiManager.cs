@@ -1,7 +1,9 @@
 using JetBrains.Annotations;
+using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TaxiManager : MonoBehaviour
 {
@@ -20,7 +22,8 @@ public class TaxiManager : MonoBehaviour
     public float minY;
     public float maxX;
     public float maxY;
-    public float score; 
+    public float score;
+    public bool taxiSequenceRunning = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -50,7 +53,7 @@ public class TaxiManager : MonoBehaviour
         float distance = Vector2.Distance(playerTransform.position, alienObject.transform.position);
 
         // If the alien object is active and the player is close to it, start the taxi sequence
-        if (distance <= 1.5 && alienObject.activeSelf == true)
+        if (distance <= 2 && alienObject.activeSelf == true)
         {
             TaxiSequence(new Vector3(0,1,0));
         }
@@ -73,6 +76,7 @@ public class TaxiManager : MonoBehaviour
 
     public void TaxiSequence(Vector3 offset)
     {
+        taxiSequenceRunning = true;
         // Set the alien's position to be at the player's plus the offset
         alienObject.transform.position = playerTransform.position + offset;
 
@@ -117,5 +121,7 @@ public class TaxiManager : MonoBehaviour
         score += roundScore;
         scoreText.text = "Score: " + score;
         timerText.text = "";
+        taxiSequenceRunning = false;
+        alienObject.transform.eulerAngles = Vector3.zero;
     } 
 }
