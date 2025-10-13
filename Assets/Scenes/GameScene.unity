@@ -2353,6 +2353,8 @@ MonoBehaviour:
   rotatingAliens: []
   rotatingPoints: []
   radius: 1.5
+  rotationSpeed: 50
+  rotationOffset: 0
 --- !u!4 &1316624728
 Transform:
   m_ObjectHideFlags: 0
