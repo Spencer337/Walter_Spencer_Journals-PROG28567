@@ -847,6 +847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 73145240}
   enemyTransform: {fileID: 892270334}
+  secondEnemyTransform: {fileID: 1986469468}
   alienManager: {fileID: 1316624727}
   houseObject: {fileID: 1906858184}
   timerText: {fileID: 292882935}
@@ -3788,7 +3789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1906858185
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3994,6 +3995,11 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaIndirect: 2
   m_PVRFilteringAtrousPositionSigmaAO: 1
   m_RespectSceneVisibilityWhenBakingGI: 0
+--- !u!4 &1986469468 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4504276444959460, guid: e3900e4d87ee29c43ad1d9098b51432c, type: 3}
+  m_PrefabInstance: {fileID: 1040575991}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1989142275
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class TaxiManager : MonoBehaviour
 {
     public Transform playerTransform;
     public Transform enemyTransform;
+    public Transform secondEnemyTransform;
     public AlienManager alienManager;
     public GameObject houseObject;
     public TextMeshProUGUI timerText;
@@ -16,25 +17,11 @@ public class TaxiManager : MonoBehaviour
     public float t;
     public float timer;
     public bool timerRunning = false;
-    public Vector3 minimumPoint;
-    public Vector3 maximumPoint;
-    public float minX;
-    public float minY;
-    public float maxX;
-    public float maxY;
     public float score;
-    public bool taxiSequenceRunning = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Get the minimum and maximum points that the alien and house can be spawned at
-        minimumPoint = Camera.main.ScreenToWorldPoint(Vector3.zero);
-        maximumPoint = new Vector3(Screen.width, Screen.height, 0);
-        maximumPoint = Camera.main.ScreenToWorldPoint(maximumPoint);
-        minX = minimumPoint.x + 1;
-        minY = minimumPoint.y + 3;
-        maxX = maximumPoint.x - 1;
-        maxY = maximumPoint.y - 1;
+
     }
 
     // Update is called once per frame
@@ -48,7 +35,7 @@ public class TaxiManager : MonoBehaviour
         {
             SpawnAlienAndHouse();
         }
-        if (Input.GetKeyDown(KeyCode.G)) 
+        if (Input.GetKeyDown(KeyCode.G))
         {
             SpawnAlienAndHouse();
         }
@@ -65,7 +52,7 @@ public class TaxiManager : MonoBehaviour
     {
         alienManager.spawnAliens();
         // Set the house's transform position to be somewhere randomly on the screen
-        Vector3 housePosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0);
+        Vector2 housePosition = Camera.main.ScreenToWorldPoint(new Vector2(Random.Range(0, Screen.width), Random.Range(0, Screen.height)));
         houseObject.transform.position = housePosition;
         // Set the house to be active
         houseObject.SetActive(true);
@@ -73,8 +60,6 @@ public class TaxiManager : MonoBehaviour
 
     public void TaxiSequence()
     {
-        taxiSequenceRunning = true;
-
         //If the timer is not running, calculate the timer's duration based on distance multiplied by the number of aliens
         //Set the timer to be running
         if (timerRunning == false)
@@ -100,7 +85,7 @@ public class TaxiManager : MonoBehaviour
             EndTaxiSequence(-5);
         }
         // If the distance between enemy and player is less than 1, end the taxi sequence and decrease score
-        if (Vector2.Distance(playerTransform.position, enemyTransform.position) <= 1)
+        if (Vector2.Distance(playerTransform.position, enemyTransform.position) <= 1 || Vector2.Distance(playerTransform.position, secondEnemyTransform.position) <= 1)
         {
             EndTaxiSequence(-5);
         }
@@ -118,7 +103,6 @@ public class TaxiManager : MonoBehaviour
         score += roundScore;
         scoreText.text = "Score: " + score;
         timerText.text = "";
-        taxiSequenceRunning = false;
         alienManager.ResetAliens();
     } 
 }

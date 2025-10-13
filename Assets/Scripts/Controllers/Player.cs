@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -18,8 +19,7 @@ public class Player : MonoBehaviour
     public float acceleration;
     public float accelerationTime = 2;
     public Vector3 velocity = new Vector3(0, 0, 0);
-    public Vector3 direction = Vector3.zero;
-    public Vector3 deceleration;
+    public float deceleration;
     public float decelerationTime = 1;
     public float radius = 1;
     public int numberOfPoints = 5;
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         acceleration = maxSpeed / accelerationTime;
+        deceleration = maxSpeed / decelerationTime;
     }
     void Update()
     {
@@ -63,110 +64,61 @@ public class Player : MonoBehaviour
 
     public void PlayerMovement()
     {   
+        Vector3 direction = Vector3.zero;
+
         // Move the object with acceleration logic
         // When right key is pressed, increase the direction to the right
         if (Input.GetKey(KeyCode.RightArrow))
         {
             direction += Vector3.right;
         }
+
         // When left key is pressed, increase the direction to the left
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             direction += Vector3.left;
         }
+
         // When up key is pressed, increase the direction upwards
         if (Input.GetKey(KeyCode.UpArrow))
         {
             direction += Vector3.up;
         }
+
         // When down key is pressed, increase the direction downwards
         if (Input.GetKey(KeyCode.DownArrow))
         {
             direction += Vector3.down;
         }
-        // Normalize direction vector
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
+
+        // If the player is moving, increase velocity
+        if (direction.magnitude > 0)
         {
-            direction = direction.normalized;
-            velocity += (Vector3)direction * acceleration * Time.deltaTime;
+            velocity += direction.normalized * acceleration * Time.deltaTime;
+
+            // If velocity is greater than the max speed, set it to equal the max speed
+            if (velocity.magnitude > maxSpeed)
+            {
+                velocity = velocity.normalized * maxSpeed;
+            }
+        }
+        else
+        {
+            Vector3 changeInVelocity = velocity.normalized * deceleration * Time.deltaTime;
+
+            if(changeInVelocity.magnitude > velocity.magnitude)
+            {
+                velocity = Vector3.zero;
+            }
+            else
+            {
+                velocity -= changeInVelocity;
+            }
         }
 
-        // Make sure velocity is not over max speed, and set it to max speed if it is
-        if (velocity.x > maxSpeed)
-        {
-            velocity.x = maxSpeed;
-        }
-        if (velocity.x < -maxSpeed)
-        {
-            velocity.x = -maxSpeed;
-        }
-        if (velocity.y > maxSpeed)
-        {
-            velocity.y = maxSpeed;
-        }
-        if (velocity.y < -maxSpeed)
-        {
-            velocity.y = -maxSpeed;
-        }
-
-        //Somewhere in your code, you will subtract the deceleration
-        //When you stop pressing input
-        if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            deceleration.x = velocity.x / decelerationTime;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            deceleration.x = velocity.x / decelerationTime;
-        }
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            deceleration.y = velocity.y / decelerationTime;
-        }
-        if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            deceleration.y = velocity.y / decelerationTime;
-        }
-
-        velocity -= deceleration * Time.deltaTime;
+        // Move the player by the velocity
         transform.position += velocity * Time.deltaTime;
 
-        // If player was moving right before decelerating
-        if (deceleration.x > 0 )
-        {
-            if (velocity.x <= 0)
-            {
-                deceleration.x = 0;
-                velocity.x = 0;
-            }
-        }
-        // If player was moving left before decelerating
-        if (deceleration.x < 0)
-        {
-            if (velocity.x >= 0)
-            {
-                deceleration.x = 0;
-                velocity.x = 0;
-            }
-        }
-        // If player was moving up before decelerating
-        if (deceleration.y > 0)
-        {
-            if (velocity.y <= 0)
-            {
-                deceleration.y = 0;
-                velocity.y = 0;
-            }
-        }
-        // If player was moving down before decelerating
-        if (deceleration.y < 0)
-        {
-            if (velocity.y >= 0)
-            {
-                deceleration.y = 0;
-                velocity.y = 0;
-            }
-        }
     }
 
     public void SpawnBombAtOffset(Vector2 inOffset)
