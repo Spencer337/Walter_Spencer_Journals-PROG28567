@@ -12,14 +12,14 @@ public class Enemy : MonoBehaviour
     public float acceleration;
     public float accelerationTime = 3;
     public float moveInterval = 3;
-    public float t;
+
     public float maxDistance = 20;
 
     public float frequency = 5f;
-    public float magnitude = 5f;
-    public float offset = 0f;
+    public float amplitude = 5f;
     public Vector3 pos;
     public float moveSpeed = 10;
+    public float t;
 
     private void Start()
     {
@@ -28,15 +28,8 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        //t += Time.deltaTime; 
-        //if (t >= moveInterval)
-        //{
-        //    moveTowardPlayer();
-        //}
 
-        pos += transform.right * Time.deltaTime * moveSpeed;
-        transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency + offset) * magnitude;
-
+        moveAlongWave();
     }
 
     public void moveTowardPlayer()
@@ -58,6 +51,32 @@ public class Enemy : MonoBehaviour
             velocity -= velocity * acceleration * Time.deltaTime;
         }
 
+    }
+
+    public void moveAlongWave()
+    {
+        // Moving horizontally
+        pos.x += Time.deltaTime * moveSpeed;
+
+        // Increment t based on time
+        t += Time.deltaTime;
+
+        // Moving vertically
+        transform.position = pos + transform.up * Mathf.Sin(t * frequency) * amplitude;
+
+        // If at the edge of the screen, invert move speed
+        Vector2 cameraPosition = Camera.main.WorldToScreenPoint(transform.position);
+        if (cameraPosition.x < 0)
+        {
+            moveSpeed = moveSpeed * -1;
+            pos.x = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+        }
+        if (cameraPosition.x > Screen.width)
+        {
+            moveSpeed = moveSpeed * -1;
+            Vector3 maximumPoint = new Vector3(Screen.width, Screen.height, 0);
+            pos.x = Camera.main.ScreenToWorldPoint(maximumPoint).x;
+        }
     }
 
 }
