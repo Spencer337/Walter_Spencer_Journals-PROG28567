@@ -14,6 +14,7 @@ public class AlienManager : MonoBehaviour
     public float radius = 1.5f;
     public float rotationSpeed = 2.0f;
     public float rotationOffset = 0;
+    public int numberOfAliens = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,7 +33,8 @@ public class AlienManager : MonoBehaviour
 
     public void spawnAliens()
     {
-        for (int i = 0; i < (int)Random.Range(1, 6); i++)
+        numberOfAliens = Random.Range(1, 6);
+        for (int i = 0; i < numberOfAliens; i++)
         {
             Vector2 spawnPosition = Camera.main.ScreenToWorldPoint(new Vector2(Random.Range(0,Screen.width) , Random.Range(0,Screen.height) ));
             GameObject newAlien = Instantiate( alienPrefab, spawnPosition, Quaternion.identity);
@@ -87,5 +89,21 @@ public class AlienManager : MonoBehaviour
             rotatingAliens[j].transform.position = rotatingPoints[j] + (Vector2) playerTransform.position;
         }
         rotatingPoints.Clear();
+    }
+
+    public void ResetAliens()
+    {
+        for (int i = 0; i < rotatingAliens.Count; i++)
+        {
+            Destroy(rotatingAliens[i]);
+        }
+        for (int i = 0; i < aliens.Count; i++)
+        {
+            Destroy(aliens[i]);
+        }
+        aliens.Clear();
+        rotatingAliens.Clear();
+        rotatingPoints.Clear();
+        numberOfAliens = 0;
     }
 }

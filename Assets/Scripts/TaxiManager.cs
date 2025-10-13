@@ -44,24 +44,21 @@ public class TaxiManager : MonoBehaviour
         t += Time.deltaTime;
 
         // After the alien has been deactive for three seconds call the SpawnAlienAndHouseMethod
-        //if (t >= 3)
-        //{
-        //    SpawnAlienAndHouse();
-        //}
+        if (t >= 3 && houseObject.activeSelf == false)
+        {
+            SpawnAlienAndHouse();
+        }
         if (Input.GetKeyDown(KeyCode.G)) 
         {
             SpawnAlienAndHouse();
         }
 
-        //// Get the distance between the alien and the player
-        //float distance = Vector2.Distance(playerTransform.position, alienObject.transform.position);
-
         // If the alien object is active and the player is close to it, start the taxi sequence
-        //if (alienManager.rotatingAliens != null)
-        //{
-        //    Debug.Log("Touching");
-        //    TaxiSequence(new Vector3(0, 1, 0));
-        //}
+        if (alienManager.rotatingAliens.Count > 0)
+        {
+            //Debug.Log("Touching");
+            TaxiSequence();
+        }
     }
 
     public void SpawnAlienAndHouse()
@@ -74,44 +71,45 @@ public class TaxiManager : MonoBehaviour
         houseObject.SetActive(true);
     }
 
-    public void TaxiSequence(Vector3 offset)
+    public void TaxiSequence()
     {
-        //taxiSequenceRunning = true;
-        // Set the alien's position to be at the player's plus the offset
-        // alienManager.rotateAroundPlayer();
+        taxiSequenceRunning = true;
 
-        // If the timer is not running, calculate the timer's duration based on distance, and set the timer to be running
-        //if (timerRunning == false)
-        //{
-        //    timer = Vector2.Distance(playerTransform.position, houseObject.transform.position);
-        //    timerRunning = true;
-        //}
+        //If the timer is not running, calculate the timer's duration based on distance multiplied by the number of aliens
+        //Set the timer to be running
+        if (timerRunning == false)
+        {
+            timer = Vector2.Distance(playerTransform.position, houseObject.transform.position) * alienManager.numberOfAliens;
+            timerRunning = true;
+        }
 
-        //// Decrease timer by Time.deltaTime, and update the UI to show the timer's current value
-        //timer -= Time.deltaTime;
-        //timerText.text = timer.ToString();
+        // Decrease timer by Time.deltaTime, and update the UI to show the timer's current value
+        timer -= Time.deltaTime;
+        timerText.text = timer.ToString();
 
-        //// If the player has moved close enough to the house, end the taxi sequence and increase score based on the timer
-        //if (Vector2.Distance(playerTransform.position, houseObject.transform.position) <= 1)
-        //{
-        //    EndTaxiSequence((int) timer);
-        //}
+        // If the player has moved close enough to the house and has all the aliens,
+        // end the taxi sequence and increase score based on the timer
+        if (Vector2.Distance(playerTransform.position, houseObject.transform.position) <= 1 && alienManager.rotatingAliens.Count == alienManager.numberOfAliens)
+        {
+            EndTaxiSequence((int)timer);
+        }
 
-        //// If the timer runs out, end the taxi sequence and decrease score
-        //if (timer <= 0)
-        //{
-        //    EndTaxiSequence(-5);
-        //}
-        //// If the distance between enemy and player is less than 1, end the taxi sequence and decrease score
-        //if (Vector2.Distance(playerTransform.position, enemyTransform.position) <= 1)
-        //{
-        //    EndTaxiSequence(-5);
-        //}
+        // If the timer runs out, end the taxi sequence and decrease score
+        if (timer <= 0)
+        {
+            EndTaxiSequence(-5);
+        }
+        // If the distance between enemy and player is less than 1, end the taxi sequence and decrease score
+        if (Vector2.Distance(playerTransform.position, enemyTransform.position) <= 1)
+        {
+            EndTaxiSequence(-5);
+        }
     }
 
-    // Set the alien and house to inactive, set t back to 0, set timerRunning back to false
+    // Set the house to inactive, set t back to 0, set timerRunning back to false
     // Increase the score by the roundScore parameter, and update the score text on the UI
     // Remove the timer text from the UI
+    // Call the method in alienManager to remove all aliens from the scene
     public void EndTaxiSequence(float roundScore)
     {
         houseObject.SetActive(false);
@@ -121,5 +119,6 @@ public class TaxiManager : MonoBehaviour
         scoreText.text = "Score: " + score;
         timerText.text = "";
         taxiSequenceRunning = false;
+        alienManager.ResetAliens();
     } 
 }
