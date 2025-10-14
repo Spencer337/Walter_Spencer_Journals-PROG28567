@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     {
         // Moving horizontally
         pos.x += Time.deltaTime * moveSpeed;
+        transform.position = pos;
 
         // Increment t based on time
         t += Time.deltaTime;
@@ -35,12 +36,14 @@ public class Enemy : MonoBehaviour
         {
             moveSpeed = moveSpeed * -1;
             pos.x = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+            transform.position = pos;
         }
         if (cameraPosition.x > Screen.width)
         {
             moveSpeed = moveSpeed * -1;
             Vector3 maximumPoint = new Vector3(Screen.width, Screen.height, 0);
             pos.x = Camera.main.ScreenToWorldPoint(maximumPoint).x;
+            transform.position = pos;
         }
     }
 
